@@ -37,7 +37,6 @@ window.addEventListener('message', function (event) {
   const script = document.createElement('script');
   script.src = workflowUrl;
   script.setAttribute('data-qp-target-id', 'fa-workflow');
-  script.defer = true;
   document.currentScript.parentNode.insertBefore(script, document.currentScript);
 </script>
 
