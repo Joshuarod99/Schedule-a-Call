@@ -4,6 +4,22 @@
   <meta charset="utf-8" />
   <title>Schedule a Call</title>
 </head>
+<script>
+window.addEventListener('message', function (event) {
+  if (!event.data || event.data.source !== 'FA_FORM') return;
+
+  if (event.data.type === 'REQUEST_PARENT_URL') {
+    event.source.postMessage(
+      {
+        source: 'PARENT_PAGE',
+        type: 'PARENT_URL',
+        parentUrl: window.location.href
+      },
+      '*'
+    );
+  }
+});
+</script>
 <body>
 
   <!-- Target container where the workflow will render -->
