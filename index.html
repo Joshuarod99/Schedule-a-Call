@@ -36,10 +36,12 @@ window.addEventListener('message', function (event) {
   // Create and inject the script element
   const script = document.createElement('script');
   script.src = workflowUrl;
-  script.setAttribute('data-qp-target-id', '');
+  script.setAttribute('data-qp-target-id', 'fa-workflow');
   script.defer = true;
   document.currentScript.parentNode.insertBefore(script, document.currentScript);
 </script>
+
+  <div id="fa-workflow"></div>
   
 </body>
 </html>
