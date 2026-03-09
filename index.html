@@ -24,59 +24,7 @@ window.addEventListener('message', function (event) {
 
 <div id="fa-workflow"></div>
 
-<script>
-(function () {
-  const targetId = "fa-workflow";
-  const maxAttempts = 4;
-  const delays = [0, 500, 1500, 3000]; // ms (simple backoff)
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const prospectId = urlParams.get("ProspectId");
-
-  const wfUrl = new URL("https://goosehead.tfaforms.net/publish/wf/wfnQNKl");
-  if (prospectId) wfUrl.searchParams.set("ProspectId", prospectId);
-
-  function clearPreviousAttempt() {
-    // Remove prior injected scripts from our retries
-    document.querySelectorAll('script[data-fa-retry="1"]').forEach(el => el.remove());
-    // Optional: clear the container contents
-    const target = document.getElementById(targetId);
-    if (target) target.innerHTML = "";
-  }
-
-  function looksRendered() {
-    const target = document.getElementById(targetId);
-    if (!target) return false;
-    // Heuristic: anything got injected?
-    return target.children.length > 0 || target.innerHTML.trim().length > 0;
-  }
-
-  function attempt(n) {
-    if (looksRendered()) return;
-
-    clearPreviousAttempt();
-
-    const s = document.createElement("script");
-    s.src = wfUrl.toString();
-    s.setAttribute("data-qp-target-id", targetId);
-    s.setAttribute("data-fa-retry", "1");
-
-    // If script fails to load at network level, retry
-    s.onerror = () => {
-      if (n + 1 < maxAttempts) setTimeout(() => attempt(n + 1), delays[n + 1] || 1000);
-    };
-
-    document.body.appendChild(s);
-
-    // If it loads but still doesn't render, retry after a short delay
-    setTimeout(() => {
-      if (!looksRendered() && n + 1 < maxAttempts) attempt(n + 1);
-    }, 1200);
-  }
-
-  setTimeout(() => attempt(0), delays[0]);
-})();
-</script>
+<script src="https://goosehead.tfaforms.net/publish/wf/wfnQNKl?ProspectId=aEiKb000000XZAWKA4" data-qp-target-id="fa-workflow" defer></script>  
   
 </body>
 </html>
