@@ -1,10 +1,32 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Schedule-a-Call</title>
-  </head>
-  <body>
-    <h1>GitHub Pages is working</h1>
-  </body>
+  <meta charset="utf-8" />
+  <title>Schedule a Call</title>
+</head>
+<body>
+
+  <!-- Workflow Target Container -->
+  <div id="fa-workflow"></div>
+
+  <script>
+    (function () {
+      // Get ProspectId from URL
+      const params = new URLSearchParams(window.location.search);
+      const prospectId = params.get('ProspectId');
+
+      // Build workflow URL
+      let workflowUrl = 'https://goosehead.tfaforms.net/publish/wf/wfnQNKl';
+      if (prospectId) {
+        workflowUrl += '?ProspectId=' + encodeURIComponent(prospectId);
+      }
+
+      // Inject workflow script
+      const s = document.createElement('script');
+      s.src = workflowUrl;
+      s.setAttribute('data-qp-target-id', 'fa-workflow');
+      s.defer = true;
+
+      document.body.appendChild(s);
+    })();
+  </script>
+
+</body>
 </html>
