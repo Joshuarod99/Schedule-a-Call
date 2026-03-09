@@ -17,7 +17,12 @@
   </script>
 
 <script>
-  console.log('Current window URL:', window.location.href);
+  document.body.insertAdjacentHTML(
+    'beforeend',
+    '<p style="font-family:Arial; padding:12px; background:#fffae6; border:1px solid #f0d000;">Debug: index.html script ran ✅</p>'
+  );
+  alert('Debug: index.html script ran ✅');
+  console.log('Debug: Current window URL:', window.location.href);
 </script>
   
 </body>
