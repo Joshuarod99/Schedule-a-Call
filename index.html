@@ -22,15 +22,24 @@ window.addEventListener('message', function (event) {
 </script>
 <body>
 
-  <!-- Target container where the workflow will render -->
-  <div id="fa-workflow"></div>
-
-  <!-- Embed the workflow and target the container -->
-  <script
-    src="https://goosehead.tfaforms.net/publish/wf/wfnQNKl?ProspectId="
-    data-qp-target-id="fa-workflow"
-    defer>
-  </script>
+  <script>
+  // Capture the ProspectId parameter from your page's URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const prospectId = urlParams.get('ProspectId');
+ 
+  // Build the workflow URL with the parameter
+  let workflowUrl = 'https://goosehead.tfaforms.net/publish/wf/wfnQNKl';
+  if (prospectId) {
+    workflowUrl += '?ProspectId=' + encodeURIComponent(prospectId);
+  }
+ 
+  // Create and inject the script element
+  const script = document.createElement('script');
+  script.src = workflowUrl;
+  script.setAttribute('data-qp-target-id', '');
+  script.defer = true;
+  document.currentScript.parentNode.insertBefore(script, document.currentScript);
+</script>
   
 </body>
 </html>
