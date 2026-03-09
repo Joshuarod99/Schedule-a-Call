@@ -22,14 +22,38 @@ window.addEventListener('message', function (event) {
 </script>
 <body>
 
-<div id="fa-workflow"></div>
+<div id="fa-embed"></div>
 
-<iframe
-  src="https://goosehead.tfaforms.net/wfnQNKl?ProspectId=aDsPW0000032uVp0AI"
-  width="100%"
-  height="900"
-  frameborder="0"
-></iframe>
+<script>
+  (function () {
+    // 1) Read ProspectId from the current page URL
+    const params = new URLSearchParams(window.location.search);
+    const prospectId = params.get("ProspectId");
+
+    // 2) Build the FormAssembly workflow URL
+    const base = "https://goosehead.tfaforms.net/wfnQNKl";
+    const faUrl = prospectId
+      ? `${base}?ProspectId=${encodeURIComponent(prospectId)}`
+      : base;
+
+    // 3) Create and insert the iframe
+    const iframe = document.createElement("iframe");
+    iframe.src = faUrl;
+    iframe.width = "100%";
+    iframe.height = "900";
+    iframe.frameBorder = "0";
+    iframe.setAttribute("title", "FormAssembly Workflow");
+    iframe.setAttribute("loading", "lazy");
+
+    document.getElementById("fa-embed").appendChild(iframe);
+
+    // Optional: auto-resize helper (works best when allowed by your page)
+    const resizeScript = document.createElement("script");
+    resizeScript.src = "https://goosehead.tfaforms.net/js/iframe_resize_helper.js";
+    resizeScript.defer = true;
+    document.head.appendChild(resizeScript);
+  })();
+</script>
   
 </body>
 </html>
