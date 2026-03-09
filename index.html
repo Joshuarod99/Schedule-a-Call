@@ -6,17 +6,15 @@
 </head>
 <body>
 
-<div id="fa-workflow"></div>
-<script>
-  (function () {
-    const prospectId = new URLSearchParams(window.location.search).get('ProspectId') || '';
-    const s = document.createElement('script');
-    s.src = 'https://goosehead.tfaforms.net/publish/wf/wfnQNKl?ProspectId=' + encodeURIComponent(prospectId);
-    s.setAttribute('data-qp-target-id', 'fa-workflow');
-    s.defer = true;
-    document.body.appendChild(s);
-  })();
-</script>
+  <!-- Target container where the workflow will render -->
+  <div id="fa-workflow"></div>
+
+  <!-- Embed the workflow and target the container -->
+  <script
+    src="https://goosehead.tfaforms.net/publish/wf/wfnQNKl?ProspectId="
+    data-qp-target-id="fa-workflow"
+    defer>
+  </script>
 
   <script>
   window.addEventListener('message', function(event) {
