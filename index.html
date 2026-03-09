@@ -32,6 +32,45 @@
   alert('Debug: index.html script ran ✅');
   console.log('Debug: Current window URL:', window.location.href);
 </script>
+
+  <script>
+(function () {
+  const PREFIX = '[PARENT]';
+
+  function log(...args) { console.log(PREFIX, ...args); }
+
+  log('Parent page loaded:', window.location.href);
+
+  window.addEventListener('message', function (event) {
+    // Log everything coming in so we can see origin + payload
+    log('Message received', { origin: event.origin, data: event.data });
+
+    // Only handle messages we expect from the form
+    if (!event.data || event.data.source !== 'FA_FORM') return;
+
+    // If the form asks for the parent URL, respond
+    if (event.data.type === 'REQUEST_PARENT_URL') {
+      const targetOrigin = event.origin === 'null' ? '*' : event.origin;
+
+      log('Replying with parent URL to form', { targetOrigin });
+
+      event.source && event.source.postMessage(
+        {
+          source: 'PARENT_PAGE',
+          type: 'PARENT_URL',
+          parentUrl: window.location.href
+        },
+        targetOrigin
+      );
+    }
+
+    // If the form reports ProspectId, log it clearly
+    if (event.data.type === 'REPORT_PROSPECT') {
+      log('Form reports ProspectId parsing result:', event.data);
+    }
+  });
+})();
+</script>
   
 </body>
 </html>
