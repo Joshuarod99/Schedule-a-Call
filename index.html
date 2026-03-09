@@ -16,7 +16,15 @@
     defer>
   </script>
 
-<script>
+  <script>
+  window.addEventListener('message', function(event) {
+    if (event.data && event.data.source === 'FA_FORM') {
+      console.log('📩 Message from Form:', event.data.message, event.data.data);
+    }
+  });
+</script>
+  
+  <script>
   document.body.insertAdjacentHTML(
     'beforeend',
     '<p style="font-family:Arial; padding:12px; background:#fffae6; border:1px solid #f0d000;">Debug: index.html script ran ✅</p>'
