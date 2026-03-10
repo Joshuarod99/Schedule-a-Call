@@ -4,56 +4,53 @@
   <meta charset="utf-8" />
   <title>Schedule a Call</title>
 </head>
-<script>
-window.addEventListener('message', function (event) {
-  if (!event.data || event.data.source !== 'FA_FORM') return;
-
-  if (event.data.type === 'REQUEST_PARENT_URL') {
-    event.source.postMessage(
-      {
-        source: 'PARENT_PAGE',
-        type: 'PARENT_URL',
-        parentUrl: window.location.href
-      },
-      '*'
-    );
-  }
-});
-</script>
 <body>
 
 <div id="fa-embed"></div>
 
-<script>
-  (function () {
-    // 1) Read ProspectId from the current page URL
-    const params = new URLSearchParams(window.location.search);
-    const prospectId = params.get("ProspectId");
+  <script>
+(function () {
 
-    // 2) Build the FormAssembly workflow URL
-    const base = "https://goosehead.tfaforms.net/wfnQNKl";
-    const faUrl = prospectId
-      ? `${base}?ProspectId=${encodeURIComponent(prospectId)}`
-      : base;
+  // 1) Read parameters from the current page URL
+  const params = new URLSearchParams(window.location.search);
+  const prospectId = params.get("ProspectId");
+  const partnerId = params.get("PartnerId");
 
-    // 3) Create and insert the iframe
-    const iframe = document.createElement("iframe");
-    iframe.src = faUrl;
-    iframe.width = "100%";
-    iframe.height = "900";
-    iframe.frameBorder = "0";
-    iframe.setAttribute("title", "FormAssembly Workflow");
-    iframe.setAttribute("loading", "lazy");
+  // 2) Build the FormAssembly workflow URL
+  const base = "https://goosehead.tfaforms.net/wfnQNKl";
 
-    document.getElementById("fa-embed").appendChild(iframe);
+  const queryParams = new URLSearchParams();
 
-    // Optional: auto-resize helper (works best when allowed by your page)
-    const resizeScript = document.createElement("script");
-    resizeScript.src = "https://goosehead.tfaforms.net/js/iframe_resize_helper.js";
-    resizeScript.defer = true;
-    document.head.appendChild(resizeScript);
-  })();
+  if (prospectId) {
+    queryParams.append("ProspectId", prospectId);
+  }
+
+  if (partnerId) {
+    queryParams.append("PartnerId", partnerId);
+  }
+
+  const faUrl = queryParams.toString()
+    ? `${base}?${queryParams.toString()}`
+    : base;
+
+  // 3) Create and insert the iframe
+  const iframe = document.createElement("iframe");
+  iframe.src = faUrl;
+  iframe.width = "100%";
+  iframe.height = "900";
+  iframe.frameBorder = "0";
+  iframe.setAttribute("title", "FormAssembly Workflow");
+  iframe.setAttribute("loading", "lazy");
+
+  document.getElementById("fa-embed").appendChild(iframe);
+
+  // Optional: auto-resize helper
+  const resizeScript = document.createElement("script");
+  resizeScript.src = "https://goosehead.tfaforms.net/js/iframe_resize_helper.js";
+  resizeScript.defer = true;
+  document.head.appendChild(resizeScript);
+
+})();
 </script>
-  
 </body>
 </html>
