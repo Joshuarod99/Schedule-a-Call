@@ -8,32 +8,20 @@
 
 <div id="fa-embed"></div>
 
-  <script>
+<script>
 (function () {
 
-  // 1) Read parameters from the current page URL
+  // Read ProspectId from the current page URL
   const params = new URLSearchParams(window.location.search);
   const prospectId = params.get("ProspectId");
-  const partnerId = params.get("PartnerId");
 
-  // 2) Build the FormAssembly workflow URL
+  // Build the FormAssembly workflow URL
   const base = "https://goosehead.tfaforms.net/wfnQNKl";
-
-  const queryParams = new URLSearchParams();
-
-  if (prospectId) {
-    queryParams.append("ProspectId", prospectId);
-  }
-
-  if (partnerId) {
-    queryParams.append("PartnerId", partnerId);
-  }
-
-  const faUrl = queryParams.toString()
-    ? `${base}?${queryParams.toString()}`
+  const faUrl = prospectId
+    ? `${base}?ProspectId=${encodeURIComponent(prospectId)}`
     : base;
 
-  // 3) Create and insert the iframe
+  // Create and insert the iframe
   const iframe = document.createElement("iframe");
   iframe.src = faUrl;
   iframe.width = "100%";
@@ -44,13 +32,8 @@
 
   document.getElementById("fa-embed").appendChild(iframe);
 
-  // Optional: auto-resize helper
-  const resizeScript = document.createElement("script");
-  resizeScript.src = "https://goosehead.tfaforms.net/js/iframe_resize_helper.js";
-  resizeScript.defer = true;
-  document.head.appendChild(resizeScript);
-
 })();
 </script>
+
 </body>
 </html>
