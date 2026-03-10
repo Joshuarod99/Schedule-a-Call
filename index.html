@@ -11,17 +11,29 @@
 <script>
 (function () {
 
-  // Read ProspectId from the current page URL
+  // 1) Read parameters from the current page URL
   const params = new URLSearchParams(window.location.search);
   const prospectId = params.get("ProspectId");
+  const partnerId = params.get("PartnerId");
 
-  // Build the FormAssembly workflow URL
+  // 2) Build the FormAssembly workflow URL
   const base = "https://goosehead.tfaforms.net/wfnQNKl";
-  const faUrl = prospectId
-    ? `${base}?ProspectId=${encodeURIComponent(prospectId)}`
+
+  const queryParams = new URLSearchParams();
+
+  if (prospectId) {
+    queryParams.append("ProspectId", prospectId);
+  }
+
+  if (partnerId) {
+    queryParams.append("PartnerId", partnerId);
+  }
+
+  const faUrl = queryParams.toString()
+    ? `${base}?${queryParams.toString()}`
     : base;
 
-  // Create and insert the iframe
+  // 3) Create and insert the iframe
   const iframe = document.createElement("iframe");
   iframe.src = faUrl;
   iframe.width = "100%";
